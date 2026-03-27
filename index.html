@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Folder Architect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Local Storage Explorer</p>
+          <h1>Folder Architect</h1>
+          <p class="subtitle">
+            Build nested folders, add file data, search instantly, and keep it
+            all saved in your browser.
+          </p>
+        </div>
+        <div class="topbar-actions">
+          <button id="themeToggle" class="ghost-button" type="button" aria-label="Toggle theme">
+            Toggle Theme
+          </button>
+          <span class="storage-pill">Saved automatically</span>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="sidebar panel">
+          <section class="sidebar-section">
+            <div class="section-heading">
+              <h2>Search</h2>
+            </div>
+            <label class="input-label" for="searchInput">Find files or folders</label>
+            <div class="search-row">
+              <input
+                id="searchInput"
+                class="text-input"
+                type="search"
+                placeholder="Search by name..."
+                autocomplete="off"
+              />
+              <button id="clearSearchButton" class="ghost-button" type="button">Clear</button>
+            </div>
+            <div id="searchResults" class="search-results empty-state">
+              Search results will appear here.
+            </div>
+          </section>
+
+          <section class="sidebar-section">
+            <div class="section-heading">
+              <h2>Folder Tree</h2>
+              <button id="collapseTreeButton" class="ghost-button small-button" type="button">
+                Collapse All
+              </button>
+            </div>
+            <div id="treeContainer" class="tree-container"></div>
+          </section>
+        </aside>
+
+        <section class="explorer panel">
+          <div class="explorer-header">
+            <div>
+              <nav id="breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
+              <h2 id="currentFolderTitle">Root</h2>
+            </div>
+            <div class="folder-stats">
+              <div class="stat-card">
+                <span class="stat-label">Folders</span>
+                <strong id="folderCount">0</strong>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label">Files</span>
+                <strong id="fileCount">0</strong>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label">Nested Items</span>
+                <strong id="nestedCount">0</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <button id="addFolderButton" class="primary-button" type="button">Add Folder</button>
+            <button id="addFileButton" class="primary-button alt-button" type="button">Add File</button>
+            <button id="resetButton" class="ghost-button warning-button" type="button">Reset Demo Data</button>
+          </div>
+
+          <div id="messageBanner" class="message-banner" role="status" aria-live="polite"></div>
+
+          <div class="content-grid">
+            <section class="content-panel">
+              <div class="section-heading">
+                <h3>Contents</h3>
+                <span id="contentSummary" class="muted-text"></span>
+              </div>
+              <div id="contentList" class="content-list"></div>
+            </section>
+
+            <section class="content-panel preview-panel">
+              <div class="section-heading">
+                <h3>File Preview</h3>
+                <span class="muted-text">Stored file data</span>
+              </div>
+              <div id="filePreview" class="file-preview empty-state">
+                Select a file to view its contents.
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="entryDialog" class="entry-dialog">
+      <form id="entryForm" method="dialog" class="dialog-form">
+        <div class="dialog-header">
+          <div>
+            <p id="dialogModeLabel" class="eyebrow">Create</p>
+            <h3 id="dialogTitle">Add Item</h3>
+          </div>
+          <button id="closeDialogButton" class="icon-button" type="button" aria-label="Close dialog">
+            x
+          </button>
+        </div>
+
+        <label class="input-label" for="entryName">Name</label>
+        <input id="entryName" class="text-input" name="entryName" type="text" maxlength="60" required />
+
+        <div id="fileContentGroup">
+          <label class="input-label" for="entryContent">File Data</label>
+          <textarea
+            id="entryContent"
+            class="text-area"
+            name="entryContent"
+            rows="7"
+            placeholder="Add any text you want to store in this file..."
+          ></textarea>
+        </div>
+
+        <p id="dialogHint" class="dialog-hint"></p>
+
+        <div class="dialog-actions">
+          <button class="ghost-button" type="button" id="cancelDialogButton">Cancel</button>
+          <button class="primary-button" type="submit" id="submitDialogButton">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <template id="contentItemTemplate">
+      <article class="content-item">
+        <div class="content-meta">
+          <button class="item-name-button" type="button"></button>
+          <p class="item-path muted-text"></p>
+        </div>
+        <div class="item-actions">
+          <button class="ghost-button small-button item-open-button" type="button">Open</button>
+          <button class="ghost-button small-button item-rename-button" type="button">Rename</button>
+          <button class="ghost-button small-button warning-button item-delete-button" type="button">
+            Delete
+          </button>
+        </div>
+      </article>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>
